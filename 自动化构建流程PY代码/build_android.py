@@ -7,6 +7,7 @@ import compilerlog
 
 UNITY3D_OPEN_CMD = "\"" + localconfig.UNITY3D_EXE_PATH + "\" -projectPath " + localconfig.UNITY3D_PROJECT_PATH + " -quit -logFile unityOpenLog.log"
 UNITY3D_COMPILE_CMD = "\"" + localconfig.UNITY3D_EXE_PATH + "\" -projectPath " + localconfig.UNITY3D_PROJECT_PATH + " -executeMethod " + localconfig.UNITY3D_BUILD_METHOD + " -quit -logFile unityCompileLog.log"
+UNITY3D_BUILDAB_CMD = "\"" + localconfig.UNITY3D_EXE_PATH + "\" -projectPath " + localconfig.UNITY3D_PROJECT_PATH + " -executeMethod " + localconfig.UNITY3D_BUILDAB_METHOD + " -quit -logFile unityLog.log"
 
 # 判定失败的时间 目前设定为30min
 CHECK_FAIL_TIME = 60*30
@@ -20,12 +21,25 @@ def open_unity():
 		localutil.log("Execute open cmd failed")
 
 
+def unity_buildab():
+	localutil.log("build assetbundle")
+	if localutil.execute(UNITY3D_BUILDAB_CMD):
+		localutil.log("Execute compile cmd failed")
+
+
 def mainFunc(delay):
 	global openUnitySucc
 	global openUnityFail
     compilerlog.set_prefix_path(localconfig.UNITY3D_PROJECT_PATH + "/../")
     compilerlog.clear_open_log()
     open_unity()
+	openUnitySucc = True
+	# 有打开的编译报错
+    if compilerlog.check_open_log():
+        failEnd = True
+        return
+	compilerlog.clear_compiler_log()
+	unity_buildab() 
 
 
 def kill_unity():
