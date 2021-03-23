@@ -27,6 +27,16 @@ def get_current_time():
     return time_str
 
 
+# 获得当前除disable外的参数
+def get_current_argv_without_disable():
+    append_args = ""
+    if(len(sys.argv) > 1):
+        for item in sys.argv:
+            if item != "Disable" and item != "disable":
+                append_args += " " + item
+    return time_str
+
+
 # 检测该脚本是否被禁用
 def check_disable():
     isDisable = False
