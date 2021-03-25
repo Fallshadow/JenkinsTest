@@ -7,6 +7,19 @@ using System;
 
 public class BuildingUtility : Editor 
 {
+    enum BuildQuality
+    {
+        VeryLow,
+        Low,
+        Medium,
+        High,
+        VeryHigh,
+        Utral,
+    }
+
+    const BuildQuality QUALITY_FOR_WINDOWS = BuildQuality.Utral;
+    const BuildQuality QUALITY_FOR_ANDROID = BuildQuality.High;
+    const BuildQuality QUALITY_FOR_IPHONE = BuildQuality.High;
         //shell脚本直接调用这个静态方法    
     [MenuItem("Version/Windows/Build Windows")]
     static void BuildWindows()
@@ -27,5 +40,6 @@ public class BuildingUtility : Editor
         string path = Application.dataPath + "/../../" + "ACT_PC_" + pathName;
         Directory.CreateDirectory(path);
         string strPathexe = path + "/ACT.exe";
-        BuildPipeline.BuildPlayer("", strPathexe, BuildTarget.StandaloneWindows64, BuildOptions.Development | BuildOptions.ConnectWithProfiler | BuildOptions.EnableDeepProfilingSupport);    }
+        string[] scenes = null;
+        BuildPipeline.BuildPlayer(scenes, strPathexe, BuildTarget.StandaloneWindows64, BuildOptions.Development | BuildOptions.ConnectWithProfiler | BuildOptions.EnableDeepProfilingSupport);    }
 }
