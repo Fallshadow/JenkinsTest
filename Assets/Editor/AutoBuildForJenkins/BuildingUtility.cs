@@ -1,18 +1,31 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
+using System;
 
-public class BuildingUtility : MonoBehaviour
+public class BuildingUtility : Editor 
 {
-    // Start is called before the first frame update
-    void Start()
+        //shell脚本直接调用这个静态方法    
+    [MenuItem("Version/Windows/Build Windows")]
+    static void BuildWindows()
     {
-        
+        var now = System.DateTime.Now;
+        string nowstr = string.Format("{0:0000}.{1:00}.{2:00}-{3:00}.{4:00}.{5:00}", now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+        BuildWindowWithName(nowstr);
     }
 
-    // Update is called once per frame
-    void Update()
+    static void BuildWindowWithName(string pathName)
     {
-        
-    }
+        QualitySettings.SetQualityLevel((int)QUALITY_FOR_WINDOWS);
+        QualitySettings.skinWeights = SkinWeights.Unlimited;
+
+        EditorUserBuildSettings.development = false;
+        EditorUserBuildSettings.connectProfiler = false;
+
+        string path = Application.dataPath + "/../../" + "ACT_PC_" + pathName;
+        Directory.CreateDirectory(path);
+        string strPathexe = path + "/ACT.exe";
+        BuildPipeline.BuildPlayer("", strPathexe, BuildTarget.StandaloneWindows64, BuildOptions.Development | BuildOptions.ConnectWithProfiler | BuildOptions.EnableDeepProfilingSupport);    }
 }
