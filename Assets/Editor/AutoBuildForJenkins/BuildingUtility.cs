@@ -20,13 +20,19 @@ public class BuildingUtility : Editor
     const BuildQuality QUALITY_FOR_WINDOWS = BuildQuality.Utral;
     const BuildQuality QUALITY_FOR_ANDROID = BuildQuality.High;
     const BuildQuality QUALITY_FOR_IPHONE = BuildQuality.High;
-        //shell脚本直接调用这个静态方法    
+   
     [MenuItem("Version/Windows/Build Windows")]
     static void BuildWindows()
     {
         var now = System.DateTime.Now;
         string nowstr = string.Format("{0:0000}.{1:00}.{2:00}-{3:00}.{4:00}.{5:00}", now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
         BuildWindowWithName(nowstr);
+    }
+
+    [MenuItem("Version/Windows/Build Windows AB")]
+    static void BuildWindowsAB()
+    {
+
     }
 
     static void BuildWindowWithName(string pathName)
